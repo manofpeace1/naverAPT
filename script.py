@@ -5,13 +5,20 @@ import config
 def select_area_code():
     global area_name, area_code
     code_of_areas = {
-        "1": ['평촌동', '4117310300'],
-        "2": ['봉천동', '1162010100']
+        "1": ['안양-평촌동', '4117310300'],
+        "2": ['관악-봉천동', '1162010100'],
+        "3": ['분당-백현동', '4113511000'],
+        "4": ['분당-수내동', '4113510200'],
+        "5": ['분당-야탑동', '4113510700'],
+        "6": ['분당-서현동', '4113510500'],
+        "7": ['수지-상현동', '4146510700'],
+        "8": ['수지-동천동', '4146510300'],
+        "9": ['수지-죽전동', '4146510200'],
     }
 
     print('\n' + '===== 네이버 부동산: 지역을 선택하세요 =====' + '\n')
     for item in code_of_areas:
-        print(f'[{item}] {code_of_areas[item][0]}, {code_of_areas[item][1]}')
+        print(f'[{item}] {code_of_areas[item][0]} {code_of_areas[item][1]}')
 
     user_input = input(f'\n>>> ')
     area_name = code_of_areas[user_input][0]
@@ -89,7 +96,8 @@ def export_to_file():
         'm^2 (분양/전용),' +
         '평 (분양/전용),' +
         '전용면적률,'
-        '층(현재/최고)' +
+        '층(현재/최고),' +
+        'URL' +
         '\n'
     )
 
@@ -105,7 +113,8 @@ def export_to_file():
             f'{list_apt_details[i]["apt_space1_sq"]} / {list_apt_details[i]["apt_space2_sq"]},' +
             f'{list_apt_details[i]["apt_space1_py"]} / {list_apt_details[i]["apt_space2_py"]},' +
             f'{list_apt_details[i]["apt_space_percent"]} %,' +
-            f'{list_apt_details[i]["apt_floor"]}' +
+            f'{list_apt_details[i]["apt_floor"]},' +
+            f'https://land.naver.com/article/articleDetailInfo.nhn?atclNo={list_apt_details[i]["apt_id"]}' +
             '\n'
         )
         i += 1
