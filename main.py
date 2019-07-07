@@ -18,5 +18,5 @@ if __name__ == '__main__':
     DONE! ({time_record})
 
     Folder path: {config.folder_path}
-    File name: {config.file_name}
+    File name: {script.area_name + config.file_name}
     """)
