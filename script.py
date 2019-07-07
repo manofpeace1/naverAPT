@@ -48,14 +48,16 @@ def collect_apt_details():
         page = 1
         get_apt_details(apt_code, page)
 
-        while apt_details['result']['totAtclCnt'] != 0:
+        while apt_details['result']['totAtclCnt'] > 0:
             result_list = apt_details['result']['list']
             i = 0
             for item in result_list:
+                apt_number = result_list[i]['bildNm'] if 'bildNm' in result_list[i] else ''
+
                 list_apt_details.append({
                     "apt_id": result_list[i]['atclNo'],
                     "apt_name": result_list[i]['atclNm'],
-                    "apt_number": result_list[i]['bildNm'],
+                    "apt_number": apt_number,
                     "apt_direction": result_list[i]['direction'],
                     "apt_price": result_list[i]['prcInfo'].replace(',', ''),
                     "apt_space1_sq": result_list[i]['spc1'],
@@ -75,7 +77,7 @@ def collect_apt_details():
 
 
 def export_to_file():
-    f = open(config.folder_path + config.file_name, 'x')
+    f = open(config.folder_path + area_name + config.file_name, 'x')
 
     f.write(
         '지역명,' +
