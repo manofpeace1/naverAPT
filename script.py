@@ -16,13 +16,30 @@ def select_area_code():
         "9": ['수지-죽전동', '4146510200'],
     }
 
-    print('\n' + '===== 네이버 부동산: 지역을 선택하세요 =====' + '\n')
+    print('\n' + '===== 네이버 부동산 데이터 긁어오기 =====')
+    print('\n' + '지역을 선택하세요' + '\n')
     for item in code_of_areas:
         print(f'[{item}] {code_of_areas[item][0]} {code_of_areas[item][1]}')
 
     user_input = input(f'\n>>> ')
     area_name = code_of_areas[user_input][0]
     area_code = code_of_areas[user_input][1]
+
+
+def select_sale_type():
+    global user_sale_name, user_sale_code, user_sale_type
+    sale_types = {
+        "1": ['전세', 'B1', 'leaseCnt'],
+        "2": ['월세', 'B2', 'rentCnt'],
+        "3": ['매매', 'A1', 'dealCnt'],
+    }
+    print('\n' + '매물 종류를 선택하세요' + '\n')
+    for item in sale_types:
+        print(f'[{item}] {sale_types[item][0]} {sale_types[item][1]}')
+    user_input = input(f'\n>>> ')
+    user_sale_name = sale_types[user_input][0]
+    user_sale_code = sale_types[user_input][1]
+    user_sale_type = sale_types[user_input][2]
 
 
 def collect_apt_code():
@@ -35,7 +52,7 @@ def collect_apt_code():
     i = 0
     for item in json_response:
         apt_code = json_response[i]['hscpNo']
-        if (json_response[i]['cortarNo'] == area_code) and (json_response[i]['leaseCnt'] > 0):
+        if (json_response[i]['cortarNo'] == area_code) and (json_response[i][user_sale_type] > 0):
             list_apt_code.append(apt_code)
         i += 1
 
@@ -45,7 +62,8 @@ def collect_apt_details():
     def get_apt_details(apt_code, page):
         global apt_details
         get_list_apt_details = 'https://m.land.naver.com/complex/getComplexArticleList?hscpNo=' + \
-            apt_code + '&tradTpCd=B1&order=point_&showR0=N&page=' + str(page)
+            apt_code + f'&tradTpCd={user_sale_code}' + \
+            '&order=point_&showR0=N&page=' + str(page)
         apt_details = requests.get(get_list_apt_details).json()
 
     global list_apt_details
@@ -62,9 +80,10 @@ def collect_apt_details():
                 apt_number = result_list[i]['bildNm'] if 'bildNm' in result_list[i] else ''
 
                 list_apt_details.append({
+                    "apt_sale_type": result_list[i]['tradTpNm'],
                     "apt_id": result_list[i]['atclNo'],
-                    "apt_name": result_list[i]['atclNm'],
-                    "apt_number": apt_number,
+                    "apt_name": result_list[i]['atclNm'].replace(',', ''),
+                    "apt_number": apt_number.replace(',', ''),
                     "apt_direction": result_list[i]['direction'],
                     "apt_price": result_list[i]['prcInfo'].replace(',', ''),
                     "apt_space1_sq": result_list[i]['spc1'],
@@ -84,15 +103,17 @@ def collect_apt_details():
 
 
 def export_to_file():
-    f = open(config.folder_path + area_name + config.file_name, 'x')
+    f = open(config.folder_path + user_sale_name +
+             '_' + area_name + config.file_type, 'x')
 
     f.write(
         '지역명,' +
+        '거래방식,' +
         '매물id,' +
         '아파트명,' +
         '아파트동,' +
         '방향,' +
-        '전세가,' +
+        '거래가,' +
         'm^2 (분양/전용),' +
         '평 (분양/전용),' +
         '전용면적률,'
@@ -105,6 +126,7 @@ def export_to_file():
     for item in list_apt_details:
         f.write(
             f'{area_name},' +
+            f'{list_apt_details[i]["apt_sale_type"]},' +
             f'{list_apt_details[i]["apt_id"]},' +
             f'{list_apt_details[i]["apt_name"]},' +
             f'{list_apt_details[i]["apt_number"]},' +
