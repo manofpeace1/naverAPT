@@ -1,7 +1,6 @@
 from timeit import default_timer
 from datetime import timedelta
 import script
-import config
 
 
 if __name__ == '__main__':
@@ -23,6 +22,6 @@ if __name__ == '__main__':
     print(f"""
     완료! ({time_record})
 
-    폴더 위치: {config.folder_path}
+    폴더 위치: {script.folder_path}
     파일명: {script.export_file_name}
     """)

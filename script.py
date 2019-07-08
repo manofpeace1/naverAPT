@@ -1,5 +1,5 @@
 import requests
-import config
+import os
 
 
 def select_area_code():
@@ -107,9 +107,10 @@ def collect_apt_details():
 
 
 def export_to_file():
-    global export_file_name
-    export_file_name = user_sale_name + '_' + area_name + config.file_type
-    f = open(config.folder_path + export_file_name, 'x')
+    global folder_path, export_file_name
+    folder_path = os.path.expanduser('~') + '/Desktop/'
+    export_file_name = user_sale_name + '_' + area_name + '.csv'
+    f = open(folder_path + export_file_name, 'x')
 
     f.write(
         '지역명'

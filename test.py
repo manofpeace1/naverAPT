@@ -1,3 +1,6 @@
+
+import platform
+import os
 import requests
 import json
 import config
