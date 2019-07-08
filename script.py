@@ -78,6 +78,8 @@ def collect_apt_details():
             i = 0
             for item in result_list:
                 apt_number = result_list[i]['bildNm'] if 'bildNm' in result_list[i] else ''
+                apt_description = result_list[i]['atclFetrDesc'] if 'atclFetrDesc' in result_list[i] else ''
+                apt_confirm_date = result_list[i]['cfmYmd'] if 'cfmYmd' in result_list[i] else ''
 
                 list_apt_details.append({
                     "apt_sale_type": result_list[i]['tradTpNm'],
@@ -92,6 +94,8 @@ def collect_apt_details():
                     "apt_space2_py": "%.2f" % (float(result_list[i]['spc2']) / 3.3),
                     "apt_space_percent": "%.2f" % ((float(result_list[i]['spc2']) / float(result_list[i]['spc1'])) * 100),
                     "apt_floor": result_list[i]['flrInfo'],
+                    "apt_confirm_date": apt_confirm_date.replace(',', ''),
+                    "apt_description": apt_description.strip().replace(',', ''),
                 })
                 i += 1
 
@@ -118,6 +122,8 @@ def export_to_file():
         '평 (분양/전용),' +
         '전용면적률,'
         '층(현재/최고),' +
+        '확인날짜,' +
+        '설명,' +
         'URL' +
         '\n'
     )
@@ -136,6 +142,8 @@ def export_to_file():
             f'{list_apt_details[i]["apt_space1_py"]} / {list_apt_details[i]["apt_space2_py"]},' +
             f'{list_apt_details[i]["apt_space_percent"]} %,' +
             f'{list_apt_details[i]["apt_floor"]},' +
+            f'{list_apt_details[i]["apt_confirm_date"]},' +
+            f'{list_apt_details[i]["apt_description"]},' +
             f'https://land.naver.com/article/articleDetailInfo.nhn?atclNo={list_apt_details[i]["apt_id"]}' +
             '\n'
         )
