@@ -2,7 +2,7 @@ import requests
 import json
 import config
 
-area_code = '1162010100'
+area_code = '4113511000'
 area_url = 'https://m.land.naver.com/complex/ajax/complexListByCortarNo?cortarNo=' + area_code
 
 

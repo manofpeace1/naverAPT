@@ -18,5 +18,5 @@ if __name__ == '__main__':
     완료! ({time_record})
 
     폴더 위치: {config.folder_path}
-    파일명: {script.user_sale_name + '_' + script.area_name + config.file_type}
+    파일명: {script.export_file_name}
     """)

@@ -107,45 +107,49 @@ def collect_apt_details():
 
 
 def export_to_file():
-    f = open(config.folder_path + user_sale_name +
-             '_' + area_name + config.file_type, 'x')
+    global export_file_name
+    export_file_name = user_sale_name + '_' + area_name + config.file_type
+    f = open(config.folder_path + export_file_name, 'x')
 
     f.write(
-        '지역명,' +
-        '거래방식,' +
-        '매물id,' +
-        '아파트명,' +
-        '아파트동,' +
-        '방향,' +
-        '거래가,' +
-        'm^2 (분양/전용),' +
-        '평 (분양/전용),' +
-        '전용면적률,'
-        '층(현재/최고),' +
-        '확인날짜,' +
-        '설명,' +
-        'URL' +
-        '\n'
+        '지역명'
+        + ',' + '거래방식'
+        + ',' + '매물id'
+        + ',' + '아파트명'
+        + ',' + '아파트동'
+        + ',' + '방향'
+        + ',' + '거래가'
+        + ',' + 'm^2 (분양/전용)'
+        + ',' + '평 (분양/전용)'
+        + ',' + '전용면적률'
+        + ',' + '층(현재/최고)'
+        + ',' + '확인날짜'
+        + ',' + '설명'
+        + ',' + 'URL'
+        + '\n'
     )
 
     i = 0
     for item in list_apt_details:
         f.write(
-            f'{area_name},' +
-            f'{list_apt_details[i]["apt_sale_type"]},' +
-            f'{list_apt_details[i]["apt_id"]},' +
-            f'{list_apt_details[i]["apt_name"]},' +
-            f'{list_apt_details[i]["apt_number"]},' +
-            f'{list_apt_details[i]["apt_direction"]},' +
-            f'{list_apt_details[i]["apt_price"]},' +
-            f'{list_apt_details[i]["apt_space1_sq"]} / {list_apt_details[i]["apt_space2_sq"]},' +
-            f'{list_apt_details[i]["apt_space1_py"]} / {list_apt_details[i]["apt_space2_py"]},' +
-            f'{list_apt_details[i]["apt_space_percent"]} %,' +
-            f'{list_apt_details[i]["apt_floor"]},' +
-            f'{list_apt_details[i]["apt_confirm_date"]},' +
-            f'{list_apt_details[i]["apt_description"]},' +
-            f'https://land.naver.com/article/articleDetailInfo.nhn?atclNo={list_apt_details[i]["apt_id"]}' +
-            '\n'
+            f'{area_name}'
+            + ',' + f'{list_apt_details[i]["apt_sale_type"]}'
+            + ',' + f'{list_apt_details[i]["apt_id"]}'
+            + ',' + f'{list_apt_details[i]["apt_name"]}'
+            + ',' + f'{list_apt_details[i]["apt_number"]}'
+            + ',' + f'{list_apt_details[i]["apt_direction"]}'
+            + ',' + f'{list_apt_details[i]["apt_price"]}'
+            + ',' +
+            f'{list_apt_details[i]["apt_space1_sq"]} / {list_apt_details[i]["apt_space2_sq"]}'
+            + ',' +
+            f'{list_apt_details[i]["apt_space1_py"]} / {list_apt_details[i]["apt_space2_py"]}'
+            + ',' + f'{list_apt_details[i]["apt_space_percent"]} %'
+            + ',' + f'{list_apt_details[i]["apt_floor"]}'
+            + ',' + f'{list_apt_details[i]["apt_confirm_date"]}'
+            + ',' + f'{list_apt_details[i]["apt_description"]}'
+            + ',' +
+            f'https://land.naver.com/article/articleDetailInfo.nhn?atclNo={list_apt_details[i]["apt_id"]}'
+            + '\n'
         )
         i += 1
 
